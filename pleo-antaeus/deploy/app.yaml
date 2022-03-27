@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pleo-antaeus-service
+  labels:
+    app: pleo-antaeus-deployment
+spec:
+  type: NodePort
+  ports:
+  - port: 8000
+    targetPort: 8000
+    protocol: TCP
+    name: http
+  selector:
+    app: pleo-antaeus
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pleo-antaeus-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pleo-antaeus
+  template:
+    metadata:
+      labels:
+        app: pleo-antaeus
+    spec:
+      containers:
+      - name: pleo-antaeus
+        image: creatiwww/pleo-antaeus:latest
+        ports:
+        - name: webrequests
+          containerPort: 8000
+        env:
+        - name: PAYMENT_PROVIDER_ENDPOINT
+          value: "http://pleo-payment-provider-service:9000/pp/rest/v1/charge"
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: rest/health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5

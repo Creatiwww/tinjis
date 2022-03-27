@@ -49,10 +49,10 @@ class AntaeusRest (
     // Pay all pending invoices
     private fun payInvoices(): Boolean {
         for (invoice in invoiceService.fetchAllPending()) {
-            if (!paymentProvider.charge(invoice)) {
-                return false
+            if (paymentProvider.charge(invoice)) {
+                  invoiceService.invoicePaid(invoice)
             }
-            invoiceService.invoicePaid(invoice)
+
         }
         return true
     }

@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pleo-payment-provider-service
+  labels:
+    app: pleo-payment-provider-deployment
+spec:
+  type: NodePort
+  ports:
+  - port: 9000
+    targetPort: 9000
+    protocol: TCP
+    name: http
+  selector:
+    app: pleo-payment-provider
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pleo-payment-provider-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pleo-payment-provider
+  template:
+    metadata:
+      labels:
+        app: pleo-payment-provider
+    spec:
+      containers:
+      - name: pleo-payment-provider
+        image: creatiwww/pleo-peyment-provider:latest
+        ports:
+        - name: webrequests
+          containerPort: 9000
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: pp/rest/health
+            port: 9000
+          initialDelaySeconds: 5
+          periodSeconds: 5

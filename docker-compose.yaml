@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+  pleo-antaeus:
+    image: pleo-antaeus:latest
+    build:
+      context: ./pleo-antaeus
+    ports:
+      - "8000:8000"
+    environment:
+      - PAYMENT_PROVIDER_ENDPOINT=http://pleo-payment-provider:9000/pp/rest/v1/charge
+    depends_on:
+      - pleo-payment-provider
+
+  pleo-payment-provider:
+    image: pleo-payment-provider:latest
+    build:
+      context: ./pleo-payment-provider
+    ports:
+      - "9000:9000"
