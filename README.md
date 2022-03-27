@@ -38,7 +38,7 @@ Call Antheus service to pay the invoices:
 curl 192.168.39.72/rest/v1/invoices/pay -X POST
 > true
 ```
-Antheus will call Payment Provider service (/pp/rest/v1/charge) which randomly succeed with particular invoice payment, so if you call Antheus pay endpoint (/rest/v1/invoices/pay) multiple times eventially you will find all infoices at status PAID (/rest/v1/invoices)
+Antheus will call Payment Provider service (/pp/rest/v1/charge) which randomly succeed with particular invoice payment, so if you call Antheus pay endpoint (/rest/v1/invoices/pay) multiple times eventially you will find all invoices at status PAID (/rest/v1/invoices)
 
 ## How to improve
 1. Q: How would a new deployment look like for these services? What kind of tools would you use?
