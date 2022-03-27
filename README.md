@@ -27,7 +27,7 @@ Get Ingress address and replace all commands below with your IP (replace 192.168
 kubectl get ing -o jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}"
 ```
 
-Enshure there are unpaid invoices (status PENDING) by calling Antheus:
+Ensure there are unpaid invoices (status PENDING) by calling Antheus:
 ```
 curl 192.168.39.72/rest/v1/invoices
 
@@ -42,8 +42,8 @@ Antheus will call Payment Provider service (/pp/rest/v1/charge) which randomly s
 
 ## How to improve
 1. Q: How would a new deployment look like for these services? What kind of tools would you use?
-   A: We may use Helm charts to pack related set of K8s resouces for each microservice. Any CI/CD tools to integrate changes and deploy package to environments (GitHub Actions, Jenkins, GitLab, ...)
+   A: We may use Helm charts to pack related set of K8s resources for each microservice. Any CI/CD tools to integrate changes and deploy package to environments (GitHub Actions, Jenkins, GitLab, ...)
 2. Q: If a developers needs to push updates to just one of the services, how can we grant that permission without allowing the same developer to deploy any other services running in K8s?
-   A: Developers should not have an access to deploy services to environments manualy, this should be done by CI/CD tools according with GitOps flow. Each servise's source files should be located at separate repository. Than we can restrict the access for particular team to particular repository. Each commit/PR to repository triggers pipeline and the service builded from this repository deployes to environments.
+   A: Developers should not have an access to deploy services to environments manually, this should be done by CI/CD tools according with GitOps flow. Each service's source files should be located at separate repository. Than we can restrict the access for particular team to particular repository. Each commit/PR to repository triggers pipeline and the service builded from this repository deployes to environments.
 3. Q: How do we prevent other services running in the cluster to talk to your service. Only Antaeus should be able to do it.
-   A: We can use Network Policies (K8s kind: NetworkPolicy) to strict the egress communications between pods inside the cluster. Or we can use some advanced tools like Calico or Istio for service mesh.
+   A: We can use Network Policies (K8s kind: Network Policy) to strict the egress communications between pods inside the cluster. Or we can use some advanced tools like Calico or Istio for servicemesh.
