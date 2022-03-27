@@ -14,7 +14,7 @@ If you want to run both services at K8s, deploy the resources first:
 ```
 kubectl apply -f ./pleo-antaeus/deploy/ -f ./pleo-payment-provider/deploy/
 ```
-Make shure it works by performing smock tests:
+Make shure it works by performing smoke tests:
 ```
 curl 192.168.39.72/pp/rest/health
 > ok
